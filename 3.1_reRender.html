@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="root"></div>
+    </body>
+    <!-- React & React-DOM 최초 설계 -->
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <!-- 해당 방식은 느리기 때문에 교육용으로만 사용 -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+        function countUp() {
+            // code
+        }
+
+        function App() {
+            const [counter, setCounter] = React.useState(0);
+            const onClick = () => {
+                setCounter(counter + 1);
+            };
+            return (
+                <div>
+                    <h3>Total Clicks: {counter}</h3>
+                    <button onClick={onClick}>Click button</button>
+                </div>
+            );
+        }
+        ReactDOM.render(<App />, root);
+    </script>
+</html>
