@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="root"></div>
+    </body>
+    <!-- React & React-DOM 최초 설계 -->
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <!-- 해당 방식은 느리기 때문에 교육용으로만 사용 -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+        function Btn({ text, big }) {
+            // console.log(text, big);
+            return (
+                <button
+                    style={{
+                        backgroundColor: "tomato",
+                        color: "white",
+                        padding: "10px, 20px",
+                        borderRadius: 10,
+                        fontSize: big ? 22 : 16,
+                    }}
+                >
+                    {text}
+                </button>
+            );
+        }
+
+        function App() {
+            return (
+                <div>
+                    <Btn text="Save Changes" big={true} />
+                    <Btn text="Continue" big={false} />
+                </div>
+            );
+        }
+        ReactDOM.render(<App />, root);
+    </script>
+</html>

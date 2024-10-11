@@ -18,20 +18,143 @@
     > const x = [1,2,3]
     > const [a, b, c] = x
 
--   const [counter, setCounter] = React.useState(0);
+-   const [counter, modifier] = React.useState(0); => 앞의 배열에서 0번째 인덱스의 값을 default 해주는 값: 0
 -   위의 함수에서 modifier가 리랜더링을 일으킬수 있게 도와주는 함수 (return 값에 출력되는 값이 있기 때문에)
+-   modifier: 함수를 사용할 때 컴포넌트가 재생성되면서 리랜더링이 진행.
 
     >
 
-        function App() {
-            const [counter, setCounter] = React.useState(0);
-            const onClick = () => {
-                modifiter(counter + 1);
-            };
-            return (
-                <div>
-                    <h3>Total Clicks: {counter}</h3>
-                    <button onClick={onClick}>Click button</button>
-                </div>
-            );
-        }
+          function App() {
+              const [counter, setCounter] = React.useState(0);
+              const onClick = () => {
+                  modifiter(counter + 1);
+                  // modifiter((current) => counter + 1);
+              };
+              return (
+                  <div>
+                      <h3>Total Clicks: {counter}</h3>
+                      <button onClick={onClick}>Click button</button>
+                  </div>
+              );
+          }
+
+-   setCounter((current) => counter + 1); => 현재 값을 가져와서 업데이트 해주는 부분. 안정성에서 해당 방식이 맞음
+
+## input_and_state
+
+-   js의 input 태그를 활용하는 방법과 event를 이용해 해당 input value 값을 가져오는 부분
+    > function App() {
+        const [minutes, setMinutes] = React.useState();
+        const onChange = (event) => {
+            setMinutes(event.target.value);
+        };
+        return (
+            <div>
+                <h1 className="hi">Super Converter</h1>
+                <label htmlFor="minutes">Minutes</label>
+                <input value={minutes} id="minutes" placeholder="Minutes" type="number" onChange={onChange} />
+                <h4>You want to convert {minutes} </h4>
+                <label htmlFor="hours">Hours</label>
+                <input id="hour" placeholder="Hours" type="number" />
+            </div>
+        );
+    }
+
+## Select_Compunent
+
+>
+
+    function App() {
+        const [index, setIndex] = React.useState("0");
+        const onSelect = (event) => {
+            setIndex(event.target.value);
+        };
+        return (
+            <div>
+                <h1>Super Converter</h1>
+                <select value={index} onChange={onSelect}>
+                    <option value="xx">Select Your unites</option>
+                    <option value="0">Minutes & Hours</option>
+                    <option value="1">KM & Milies</option>
+                </select>
+                <hr />
+                {index === "xx" ? "Please select your units" : null}
+                {index === "0" ? <MinutesToHours /> : null}
+                {index === "1" ? <KmToMiles /> : null}
+            </div>
+        );
+    }
+
+## Prpos
+
+-   props: 오브잭트이기 때문에 중괄호로 표현 가능.
+-   props의 이름과 이벤트 리스터와 착각하지 말 것.
+-   props항목에는 함수가 들어갈 수 있으며 해당 항목에 추가하면 실제로 프로퍼티에도 적용해줘야 한다.
+
+>
+
+    function Btn({ text, onClick }) {
+        console.log(text, "was rendered");
+        return (
+            <button
+                onClick={onClick}
+                style={{
+                    backgroundColor: "tomato",
+                    color: "white",
+                    padding: "10px, 20px",
+                    borderRadius: 10,
+                    fontSize: 20,
+                }}
+            >
+                {text}
+            </button>
+        );
+    }
+
+    function App() {
+        const [value, setValue] = React.useState("Save Changes");
+        const changeValue = () => {
+            setValue("Revert Changes");
+        };
+        return (
+            <div>
+                <Btn text={value} onClick={changeValue} />
+                <Btn text="Continue" />
+            </div>
+        );
+    }
+
+### prop memo
+
+-   특정 프로퍼티만 변경하고 이후 다른 프로퍼티는 변경하지 않는 부분.
+
+>
+
+    const MemorizedBtn = React.memo(Btn);
+
+    function App() {
+        const [value, setValue] = React.useState("Save Changes");
+        const changeValue = () => {
+            setValue("Revert Changes");
+        };
+        return (
+            <div>
+                <MemorizedBtn text={value} onClick={changeValue} />
+                <MemorizedBtn text="Continue" />
+            </div>
+        );
+    }
+
+### porp type
+
+-   prop 항목에 어떤 타입이 들어올지 넣어놓는 것. (경고가 나타나며 에러와는 다른 항목)
+-   사용 시 prop-type에 대한 부분이 import 되어야 함
+-   isRequired: 반드시 필요로(정확한 타입) 하는 것.
+-   정의되지 않는 prop 에 대해서는 function 에서 prop 인자를 받을 때 deafult 값을 정해줄 수 있다.
+
+    >
+
+        Btn.propTypes = {
+            text: PropTypes.string.isRequired,
+            fontsize: PropTypes.number,
+        };

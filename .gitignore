@@ -117,3 +117,6 @@ sh
 .db.sqlite3/
 
 .env/
+
+# React Project 의 경우 해당 폴더는 우선 git 에 안올라가도록 설정
+.react-project/
