@@ -158,3 +158,9 @@
             text: PropTypes.string.isRequired,
             fontsize: PropTypes.number,
         };
+
+## React Project init(Create React App)
+
+-   npx create-react-app my-app
+-   ~ npm start
+-   React 의 경우 모두 스타일시트도 모두 모듈화가 가능하기 때문에 유지보수에 장점이 있다.
