@@ -16,7 +16,6 @@ function Detail() {
     useEffect(() => {
         getMovie();
     }, []);
-    console.log(movieData);
     return (
         <div>
             <h1>Detail Movie</h1>

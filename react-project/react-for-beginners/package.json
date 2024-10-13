@@ -40,5 +40,8 @@
             "last 1 safari version"
         ]
     },
-    "homepage": "https://kimgusan.github.io/s_react"
+    "homepage": "https://kimgusan.github.io/s_react",
+    "devDependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    }
 }
