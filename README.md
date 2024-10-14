@@ -360,4 +360,11 @@
 ## TypeScript: JavaScript를 기반으로 하는 언어.
 
 -   strongly-typed 언어: 프로그래밍 언어가 작동하기 전에 확인하는 언어.
-    > > > > > > > main
+-   JavaScript에 대해서 사용되는 일부 라이브러리에 대하여 사용하기 위해서는 추가 적으로 install 을 해줘야한다
+    -interface 는 object 설명
+
+    >
+
+        interface CircleProps{
+            bgColor:string
+        }
