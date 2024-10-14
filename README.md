@@ -230,12 +230,16 @@
         };
      }, []);
 
+### fetch && async, await
+
 ### React Router 구조 확인
 
 -   npm install react-router-dom
--   router 는 URL을 보고 있는 componet.
+-   router 는 URL을 보고 있는 componet..
     (Home 컴포넌트는 기본 URL, url 이 변경되는 부분에 대해서는 Detail 컴포넌트를 확인하면 된다.)
 -   Browser Router / HashRouter
+-   useParams: React parameter 의 값을 넘겨줌
+    > const { id } = useParams();
 
 <hr/>
 
@@ -245,3 +249,6 @@
     event.preventDefault();
 -   기존에 생성된 Array에 추가적인 값을 더하는 방법 '...'  
     setToDos((currentArray) => [toDo, ...currentArray])
+-   git-hub에서 제공하는 배포 라이브러리 npm i gh-pages (이후 package 항목에 build 등 추가 해야하는 항목들이 있다.)
+
+1. Breaking Code : 새로운 버젼이 나왔을 때 기존 코드를 변경하고 싶을 때 사용하는 방법.
