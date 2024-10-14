@@ -252,3 +252,112 @@
 -   git-hub에서 제공하는 배포 라이브러리 npm i gh-pages (이후 package 항목에 build 등 추가 해야하는 항목들이 있다.)
 
 1. Breaking Code : 새로운 버젼이 나왔을 때 기존 코드를 변경하고 싶을 때 사용하는 방법.
+
+---
+
+# React Master Class
+
+### Tip.
+
+1. Styled Components
+
+-   아래와 같은 형태로 표현될 수 있으며 클래스명을 지정할 필요 없이 css 속성 부여를 할 수 있아.
+-   컴포넌트에서는 변수 값을 props 형태로 설정할 수 있으며 확장 또한 가능하다.
+
+    >
+
+          const Box = styled.div`
+              background-color: ${(props) => props.bgColor};
+              width: 100px;
+              height: 100px;
+          `;
+
+          const Circle = styled(Box)`
+              border-radius: 50px;
+          `;
+          function App() {
+              return (
+                  <Father>
+                      <Box bgColor="teal"></Box>
+                      <Circle bgColor="tomato" />
+                  </Father>
+              );
+          }
+
+-   attrs 항목으로 속성값을 부여할 수 있으며 다중으로 반복되는 항목에 대하여 설정할 수 있다.
+
+>
+
+    const Input = styled.input.attrs({ required: true, minLength: 10 })`
+        background-color: tomato;
+    `;
+
+2. animation 효과를 넣기 위해서는 keyframe 이라는 라이브러리리를 사용한다.
+
+-   import styled, { keyframes } from "styled-components";
+
+>
+
+    const rotationAnimation = keyframes`
+        0% {
+            transform:rotate(0deg);
+            border-radius: 0px;
+
+        }
+        50%{
+            transform: rotate(360deg);
+            border-radius: 100px;
+        }
+        100%{
+            transform:rotate(720deg);
+            border-radius: 0px;
+        }
+    `;
+
+    const Box = styled.div`
+        height: 200px;
+        width: 200px;
+        background-color: tomato;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: ${rotationAnimation} 4s linear infinite;
+        span {
+            font-size: 36px;
+            &:hover {
+                font-size: 80px;
+            }
+            &:active {
+               opacity: 0;
+            }
+        }
+    `;
+
+3.  다크모드와 같은 기능을 구현하기 위해서는 Theme을 사용하는 방법이 있다.
+
+    > index.js 이동 -> import {ThemeProvider} from 'styled-components' 적용
+
+        import React from "react";
+
+        const darkTheme = {
+            textColor: "whitesmoke",
+            backgroundColor: "#111",
+        };
+
+        const lightTheme = {
+            textColor: "#111",
+            backgroundColor: "whitesmoke",
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(
+            <ThemeProvider theme={lightTheme}>
+                <App />
+            </ThemeProvider>
+
+---
+
+## TypeScript: JavaScript를 기반으로 하는 언어.
+
+-   strongly-typed 언어: 프로그래밍 언어가 작동하기 전에 확인하는 언어.
+    > > > > > > > main
