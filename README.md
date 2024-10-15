@@ -1,4 +1,4 @@
-# React
+# React Basic & Master Class
 
 1. React 사용시 React script 와 React DOM을 먼저 import 해주어야한다.
 2. interactive 동작을 위해 사용되었으며, 동적 요소들을 실기간으로 변경할 수 있다.
@@ -239,7 +239,7 @@
     (Home 컴포넌트는 기본 URL, url 이 변경되는 부분에 대해서는 Detail 컴포넌트를 확인하면 된다.)
 -   Browser Router / HashRouter
 -   useParams: React parameter 의 값을 넘겨줌
-    > const { id } = useParams();
+    > const { id } = useParams(); (=> url에 입력된 값을 나타낼 수 있음) useParams (훅)
 
 <hr/>
 
@@ -368,3 +368,112 @@
         interface CircleProps{
             bgColor:string
         }
+
+-   TypeScript interface Optional Props기능.
+
+    >
+
+        interface CircleProps {
+            bgColor: string; // required
+            borderColor?: string; // optional
+            text?: string;
+        }
+
+        function Circle({ bgColor, borderColor, text = "default text" }: CircleProps) {
+            return (
+                <Container $bgColor={bgColor} $borderColor={borderColor ?? bgColor}>
+                    {text}
+                </Container>
+            );
+        }
+
+-   TypeScript interface State.
+
+    >
+
+        const [value, setValue] = useState<number | string>(0);
+
+-   input, submit 사용 시 가져오는 방법. (event: React.FormEvent<...>)  
+    (등등 공식 문서를 참고할 것.)
+
+>
+
+    const [value, setValue] = useState("");
+    const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+        const {
+            currentTarget: { value },
+        } = event;
+        setValue(value);
+    };
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log("hello", value);
+    };
+    return (
+        <div>
+            <form onSubmit={onSubmit}>
+                <input value={value} onChange={onChange} type="text" placeholder="username"></input>
+                <button>Log in</button>
+            </form>
+        </div>
+    );
+
+Tip.
+
+1. const GlobalStyle = createGlobalStyle`` (전역 변수 설정 관련)
+2. 비하인드 더 씬 옵션 , 다른 페이지로 넘어갈 때 정보를 데이터를 넘기는 방법.
+
+>
+
+    <Link to {{
+        pathname: "/{coin.name}",
+        state: {name: coin.name},
+    }}>
+
+3. fetch (async-await): 캡슐화 방법
+
+-   가져온 데이터에 대하여 사용하기 전에 typescript의 특징인 값에 대하여 설명해주는 작업이 필요하다.  
+    (콘솔 창에서 Object.values(temp1).map(v => typeof v)) 이와 같은 형태로 나타낼 수 있다.
+
+>
+
+     useEffect(() => {
+        (async () => {
+            const infoData = await (await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)).json();
+            const priceData = await (await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)).json();
+            setInfo(infoData);
+            setPriceInfo(priceData);
+        })();
+    }, []);
+
+4.  const chartMatch = useRouteMatch("/:coinId/chart"); 내가 선택한 url에 정상적으로 들어가있는지 확인하는 방법.
+
+    >
+
+        <Tab isActive={priceMatch !== null}>
+            <Link to={`/${coinId}/Price`}>Price</Link>
+        </Tab>
+
+5.  React query
+
+-   fetcher function
+-   api.ts 파일에 fetch 함수를 넣어놓고 josn 값을 리턴하면 useQuery hook 를 사용해서 boolean 값과, json으로 불러온 data 값을 모두 사용할 수 있기 때문에 한줄로 표현이 가능하다.
+-   캐시를 저장하고 있기 떄문에 데이터를 파괴하지 않는다. (단순 fetch를 이용하는 부분과 다르다.)
+
+>
+
+    // 전달할 return 값이 있을 때는 아래와 같이 작성한다.
+    const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(["info", coinId], () =>
+        fetchCoinInfo(coinId)
+
+    );
+    const { isLoading: tickersLoading, data: tickerData } = useQuery<PriceData>(["tickers", coinId], () =>
+    fetchCoinTickers(coinId)
+    );
+
+---
+
+npm i --save-dev @types/react-query
+
+twillo
+DDUW7P45Q1TN6CLTHYVA1LN5
