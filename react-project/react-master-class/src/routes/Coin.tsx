@@ -1,12 +1,13 @@
 import { useParams, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useLocation, Switch, Route } from "react-router-dom";
+import { useHistory, useLocation, Switch, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Chart from "./Chart";
 import Price from "./Price";
 import { useQuery } from "react-query";
 import { fetchCoinTickers, fetchCoinInfo } from "./api";
+import { Helmet } from "react-helmet";
 
 interface RouteParams {
     coinId: string;
@@ -55,6 +56,18 @@ const OverviewItem = styled.div`
         text-transform: uppercase;
         margin-bottom: 5px;
     }
+`;
+
+const BackBtn = styled.button`
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: white;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 480px;
 `;
 
 const Description = styled.p`
@@ -144,7 +157,11 @@ interface PriceData {
     };
 }
 
-function Coin() {
+interface ICoinProps {
+    isDark: boolean;
+}
+
+function Coin({ isDark }: ICoinProps) {
     const { coinId } = useParams<RouteParams>();
     const { state } = useLocation<RouteState>();
     const priceMatch = useRouteMatch("/:coinId/price");
@@ -152,10 +169,19 @@ function Coin() {
     const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(["info", coinId], () =>
         fetchCoinInfo(coinId)
     );
-    const { isLoading: tickersLoading, data: tickerData } = useQuery<PriceData>(["tickers", coinId], () =>
-        fetchCoinTickers(coinId)
+    const { isLoading: tickersLoading, data: tickerData } = useQuery<PriceData>(
+        ["tickers", coinId],
+        () => fetchCoinTickers(coinId),
+        {
+            // refetchInterval: 5000,
+        }
     );
 
+    const history = useHistory();
+
+    const handleUseHistory = () => {
+        history.push("/");
+    };
     /*
     const [loading, setLoading] = useState(true);
     const [info, setInfo] = useState<InfoData | null>(null);
@@ -173,6 +199,9 @@ function Coin() {
     const loading = infoLoading || tickersLoading;
     return (
         <Container>
+            <Helmet>
+                <title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</title>
+            </Helmet>
             <Header>
                 <Title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</Title>
             </Header>
@@ -191,7 +220,7 @@ function Coin() {
                         </OverviewItem>
                         <OverviewItem>
                             <span>Open Source</span>
-                            <span>{infoData?.open_source ? "Yes" : "No"}</span>
+                            <span>$ {tickerData?.quotes.USD.price.toFixed(2)}</span>
                         </OverviewItem>
                     </Overview>
                     <Description>{infoData?.description}</Description>
@@ -217,12 +246,16 @@ function Coin() {
 
                     <Switch>
                         <Route path={`/:coinId/chart`}>
-                            <Chart coinId={coinId} />
+                            <Chart isDark={isDark} coinId={coinId} />
                         </Route>
                         <Route path={`/:coinId/price`}>
                             <Price />
                         </Route>
                     </Switch>
+                    {/* <BackBtn onClick={handleUseHistory}>Back All Coins</BackBtn>  */}
+                    <Link to="/">
+                        <BackBtn>Back All Coins</BackBtn>
+                    </Link>
                 </>
             )}
         </Container>
@@ -230,3 +263,5 @@ function Coin() {
 }
 
 export default Coin;
+
+// 뒤로 가기 버튼 만들기, chart 를 candle 차트로 만들기

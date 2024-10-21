@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { fetchCoins } from "./api";
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
     padding: 0px 20px;
@@ -37,7 +38,7 @@ const Coin = styled.li`
     display: flex;
     font-size: 30px;
     background-color: white;
-    color: ${(props) => props.theme.bgColor};
+    color: ${(props) => props.theme.textColor};
     padding: 20px;
     border-radius: 15px;
     margin-bottom: 10px;
@@ -69,12 +70,20 @@ interface ICoin {
     type: string;
 }
 
-function Coins() {
+interface ICoinProps {
+    toggleDark: () => void;
+}
+
+function Coins({ toggleDark }: ICoinProps) {
     const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
     return (
         <Container>
+            <Helmet>
+                <title>코인</title>
+            </Helmet>
             <Header>
-                <Title>Coin</Title>
+                <Title>코인</Title>
+                <button onClick={toggleDark}>Toggle Dark Mode</button>
             </Header>
             {isLoading ? (
                 <Loader>"Loading..."</Loader>

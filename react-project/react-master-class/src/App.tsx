@@ -1,6 +1,8 @@
 import styled, { createGlobalStyle, keyframes } from "styled-components";
 import React, { useState } from "react";
 import Router from "./routes/Router";
+import { ThemeProvider } from "styled-components";
+import { darktheme, lighttheme } from "./theme";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 const GlobalStyle = createGlobalStyle`
@@ -69,11 +71,18 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+    const [isDark, setIsDark] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const toggleDark = () => {
+        setIsDark((current) => !current);
+    };
     return (
         <>
-            <GlobalStyle />
-            <Router />
-            <ReactQueryDevtools initialIsOpen={true}></ReactQueryDevtools>
+            <ThemeProvider theme={isDark ? darktheme : lighttheme}>
+                <GlobalStyle />
+                <Router isDark={isDark} toggleDark={toggleDark} />
+                <ReactQueryDevtools initialIsOpen={true}></ReactQueryDevtools>
+            </ThemeProvider>
         </>
     );
 }
