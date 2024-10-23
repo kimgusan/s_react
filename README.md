@@ -459,6 +459,7 @@ Tip.
 -   fetcher function
 -   api.ts 파일에 fetch 함수를 넣어놓고 josn 값을 리턴하면 useQuery hook 를 사용해서 boolean 값과, json으로 불러온 data 값을 모두 사용할 수 있기 때문에 한줄로 표현이 가능하다.
 -   캐시를 저장하고 있기 떄문에 데이터를 파괴하지 않는다. (단순 fetch를 이용하는 부분과 다르다.)
+-   interval 항목을 사용하여 백그라운드에서 해당 호출을 몇초마다 할 지 정할 수 있다.
 
 >
 
@@ -470,6 +471,12 @@ Tip.
     const { isLoading: tickersLoading, data: tickerData } = useQuery<PriceData>(["tickers", coinId], () =>
     fetchCoinTickers(coinId)
     );
+
+### Tip.
+
+1. apexcharts.com : 차트 관련 사이트
+2. react-helmet : favicon 에 들어가는 title을 변경할 수 있다. direct link  
+   (`<Helmet><title></title></Helmet>`)
 
 ---
 
