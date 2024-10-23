@@ -157,45 +157,24 @@ interface PriceData {
     };
 }
 
-interface ICoinProps {
-    isDark: boolean;
-}
+interface ICoinProps {}
 
-function Coin({ isDark }: ICoinProps) {
+function Coin({}: ICoinProps) {
     const { coinId } = useParams<RouteParams>();
     const { state } = useLocation<RouteState>();
     const priceMatch = useRouteMatch("/:coinId/price");
     const chartMatch = useRouteMatch("/:coinId/chart");
-    const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(["info", coinId], () =>
-        fetchCoinInfo(coinId)
-    );
-    const { isLoading: tickersLoading, data: tickerData } = useQuery<PriceData>(
-        ["tickers", coinId],
-        () => fetchCoinTickers(coinId),
-        {
-            // refetchInterval: 5000,
-        }
-    );
+    const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(["info", coinId], () => fetchCoinInfo(coinId));
+    const { isLoading: tickersLoading, data: tickerData } = useQuery<PriceData>(["tickers", coinId], () => fetchCoinTickers(coinId), {
+        // refetchInterval: 5000,
+    });
 
     const history = useHistory();
 
     const handleUseHistory = () => {
         history.push("/");
     };
-    /*
-    const [loading, setLoading] = useState(true);
-    const [info, setInfo] = useState<InfoData | null>(null);
-    const [priceInfo, setPriceInfo] = useState<PriceData | null>(null);
-    useEffect(() => {
-        (async () => {
-            const infoData = await (await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)).json();
-            const priceData = await (await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)).json();
-            setInfo(infoData);
-            setPriceInfo(priceData);
-            setLoading(false);
-        })();
-    }, [coinId]);
-    */
+
     const loading = infoLoading || tickersLoading;
     return (
         <Container>
@@ -246,7 +225,7 @@ function Coin({ isDark }: ICoinProps) {
 
                     <Switch>
                         <Route path={`/:coinId/chart`}>
-                            <Chart isDark={isDark} coinId={coinId} />
+                            <Chart coinId={coinId} />
                         </Route>
                         <Route path={`/:coinId/price`}>
                             <Price />

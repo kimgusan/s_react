@@ -472,6 +472,19 @@ Tip.
     fetchCoinTickers(coinId)
     );
 
+6. Recoil
+
+-   Atom 을 사용해서 어느 컴포넌트에서든 사용할 수 있도록 하는 기능.
+
+>
+
+    import { atom } from "recoil";
+
+    export const isDarkAtom = atom({
+    key: "isDark",
+    default: false,
+    });
+
 ### Tip.
 
 1. apexcharts.com : 차트 관련 사이트
@@ -481,6 +494,7 @@ Tip.
 ---
 
 npm i --save-dev @types/react-query
+npm install recoil
 
 twillo
 DDUW7P45Q1TN6CLTHYVA1LN5
