@@ -1,11 +1,5 @@
 import styled, { createGlobalStyle, keyframes } from "styled-components";
-import React, { useState } from "react";
-import Router from "./routes/Router";
-import { ThemeProvider } from "styled-components";
-import { darktheme, lighttheme } from "./theme";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { useRecoilValue } from "recoil";
-import { isDarkAtom } from "./atoms";
+import ToDoList from "./components/ToDoList";
 
 const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -64,7 +58,8 @@ const GlobalStyle = createGlobalStyle`
     body {
         font-family: 'Source Sans Pro', sans-serif;
         background-color:${(props) => props.theme.bgColor};
-        color:${(props) => props.theme.textColor}
+        /* color:${(props) => props.theme.textColor} */
+        color: white
     }
     a {
         text-decoration: none;
@@ -73,14 +68,10 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-    const isDark = useRecoilValue(isDarkAtom);
     return (
         <>
-            <ThemeProvider theme={isDark ? darktheme : lighttheme}>
-                <GlobalStyle />
-                <Router />
-                <ReactQueryDevtools initialIsOpen={true}></ReactQueryDevtools>
-            </ThemeProvider>
+            <GlobalStyle />
+            <ToDoList />
         </>
     );
 }

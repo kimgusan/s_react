@@ -475,26 +475,139 @@ Tip.
 6. Recoil
 
 -   Atom 을 사용해서 어느 컴포넌트에서든 사용할 수 있도록 하는 기능.
+-   모든 컴포넌트에서 사용가능한 상태값 (특정 value, state..) 등을 모두 담아둘 수 있다.
+-   props를 전달할 때 유용하게 사용이 가능.
 
 >
 
     import { atom } from "recoil";
 
     export const isDarkAtom = atom({
-    key: "isDark",
-    default: false,
+        key: "isDark",
+        default: false,
     });
+
+    ---
+    function Coins() {
+        const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
+    }return <></>
+
+7.  react-hook-form
+
+-   별도의 form 태그 없이 단 한줄의 코드로 데이터를 가져오는 형식 (로그인때나 input 태그를 사용할때나 등등.)
+-   react-hook 이 이름을 알 수 있도록 이름을 지정해야함 (...register('email') 같은 형식)
+
+>
+
+    interface IForm {
+        email: string;
+        firstName: string;
+        lastName?: string;
+        userName: string;
+        password: string;
+        password1: string;
+    }
+
+    function ToDoList() {
+        const {
+            register,
+            watch,
+            handleSubmit,
+            formState: { errors },
+        } = useForm<IForm>({
+            defaultValues: {
+                email: "naver.com",
+            },
+        });
+        const onValid = (data: any) => {
+            console.log(data);
+        };
+        return (
+            <div>
+                <form style={{ display: "flex", flexDirection: "column" }} onSubmit={handleSubmit(onValid)}>
+                    <input
+                        {...register("email", {
+                            required: "Email is required",
+                            pattern: {
+                                value: /^[A-Za-z0-9._%+-]+@naver.com$/,
+                                message: "Only naver.com email.com allow",
+                            },
+                        })}
+                        placeholder="Email"
+                    />
+                    <span>{errors?.email?.message as string}</span>
+                    <input
+                        {...register("firstName", {
+                            required: "write here",
+                            validate: {
+                                noNico: (value) => (!value.includes("nico") ? "no nico allowed" : true),
+                                noNick: (value) => (!value.includes("nick") ? "no nick allowed" : true),
+                            },
+                        })}
+                        placeholder="First Name"
+                    />
+                    <span>{errors?.firstName?.message as string}</span>
+                    <input {...register("lastName", { required: "write here" })} placeholder="Last Name" />
+                    <span>{errors?.lastName?.message as string}</span>
+                    <input {...register("userName", { required: "write here", minLength: 10 })} placeholder="Username" />
+                    <span>{errors?.userName?.message as string}</span>
+                    <input {...register("password", { required: "write here", minLength: 5 })} placeholder="Password" />
+                    <span>{errors?.password?.message as string}</span>
+                    <input
+                        {...register("password1", {
+                            required: "password is required",
+                            minLength: { value: 5, message: "Your password is too short" },
+                        })}
+                        placeholder="password1"
+                    />
+                    <span>{errors?.password1?.message as string}</span>
+                    <button>Add</button>
+                </form>
+            </div>
+        );
+    }
+
+    export default ToDoList;
+
+8.  atom (recap)
+
+    >
+
+        // atom 값을 가져오는 함수
+        const value = useRecoilValue(toDoState);
+        // atom 값을 변경하는 함수
+        const modFn = useSetRecoilState(toDoState);
+        // 위의 두개를 한꺼번에 사용할 수 있는 방법 ()
+        const [value, modFn] = useRecoilState(toDoState)
+
+9.  atom (selector)
+
+-   atom 의 ouput 을 변경시키는 것은 selector 이다.
+    >
+        export const toDoSelector = selector({
+            key: "toDoSelector",
+            get: ({ get }) => {
+                const toDos = get(toDoState);
+                const category = get(categoryState);
+                return toDos.filter((toDo) => toDo.category === category);
+            },
+        });
+
+10. enum(enumerable): 반복되는 항목을 atom 처럼 사용할 수 있는 방법.
 
 ### Tip.
 
-1. apexcharts.com : 차트 관련 사이트
-2. react-helmet : favicon 에 들어가는 title을 변경할 수 있다. direct link  
-   (`<Helmet><title></title></Helmet>`)
+1.  apexcharts.com : 차트 관련 사이트
+2.  react-helmet : favicon 에 들어가는 title을 변경할 수 있다. direct link  
+     (`<Helmet><title></title></Helmet>`)
+3.  특정 항목에 에러 발생시키는 방법  
+    useForm의 setError("password1", { message: "Password are not the same" }, { shouldFocus: true });
+4.  input 을 진행 후 다시 value 값을 변경하고 싶을 때. (useForm 항목 중 setValue 사용)
+    >
+        const { register, handleSubmit, setValue } = useForm<IForm>();
+        const handleValid = (data: IForm) => {
+            console.log("add to do", data.toDo);
+            setValue("toDo", "");
+        };
 
 ---
-
-npm i --save-dev @types/react-query
-npm install recoil
-
-twillo
-DDUW7P45Q1TN6CLTHYVA1LN5

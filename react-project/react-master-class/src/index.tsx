@@ -4,19 +4,17 @@ import App from "./App";
 import { ThemeProvider } from "styled-components";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
-
-const queryClient = new QueryClient();
+import { darkTheme } from "./theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-    <QueryClientProvider client={queryClient}>
+    <React.StrictMode>
         <RecoilRoot>
-            <App />
+            <ThemeProvider theme={darkTheme}>
+                <App />
+            </ThemeProvider>
         </RecoilRoot>
-    </QueryClientProvider>
-
-    // <React.StrictMode>
-    // </React.StrictMode>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
