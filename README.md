@@ -255,7 +255,7 @@
 
 ---
 
-# React Master Class
+# 01. React Master Class(todo)
 
 ### Tip.
 
@@ -583,13 +583,18 @@ Tip.
 9.  atom (selector)
 
 -   atom 의 ouput 을 변경시키는 것은 selector 이다.
+-   selector 의 get 의 경우 다른 atom에 있는 값을 가져오기 위해 사용하는 함수이다.
+-   selector 의 set 의 경우 다른 atom에 있는 수정하기 위한 함수이다.
     >
-        export const toDoSelector = selector({
-            key: "toDoSelector",
+        export const hourSelector = selector<number>({
+            key: "hours",
             get: ({ get }) => {
-                const toDos = get(toDoState);
-                const category = get(categoryState);
-                return toDos.filter((toDo) => toDo.category === category);
+                const minutes = get(minuteState);
+                return minutes / 60;
+            },
+            set: ({ set }, newValue) => {
+                const minutes = Number(newValue) * 60;
+                set(minuteState, minutes);
             },
         });
 
@@ -611,3 +616,5 @@ Tip.
         };
 
 ---
+
+# 02. React Master Class(trello)
