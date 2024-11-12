@@ -1,5 +1,20 @@
 # React Basic & Master Class
 
+#### test.
+
+-   로컬스토리지에 입력한 데이터 저장
+-   데이터 삭제
+    -   이슈: 실제로 Array를 copy하여 대체하는 경우 데이터가 많아지는 경우 성능 이슈 발생.
+    -   해결: 해당 box 의 key 값을 안 후 한 배열에 대해서만 갱신.
+-   box 도 추가할 수 있도록 변경
+    -   이슈: 새로고침 하면 다시 초기 atom 의 배열만 나타나는 증상.
+    -   해결: localstorage에 해당 배열을 저장하는 방법이 있지만 제한적으며 차후 사용자별로 서버 방식으로 저장 후 나타내는 방법이 있음
+-   Board 에 대해서도 이동할 수 있도록 변경
+    -   이슈: 외부로 DragDropContext, Droppable 을 빼고 map 에 대한 부분도 위쪽에서 사용,  
+        default로 만든 배열에 대해서만 위치 변경이 자연스러우며 보드를 추가했을 경우 이상 증상 확인.
+    -   해결: 보드를 추가해도 실제 배열에 대해서 변한 부분이 아니기 때문에 해당 보드가 추가되면 해당 배열로  
+        다시 가져와서 사용.
+
 1. React 사용시 React script 와 React DOM을 먼저 import 해주어야한다.
 2. interactive 동작을 위해 사용되었으며, 동적 요소들을 실기간으로 변경할 수 있다.
 3. 컴포넌트가 변경될때마다 새로고침이 되는 특징이 있음.
@@ -621,6 +636,8 @@ Tip.
 # 02. React Master Class(trello)
 
 ## DragDropContext (Draggable, Dropable)
+
+-   react-bnd
 
 >
 
